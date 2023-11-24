@@ -1,4 +1,0 @@
-
-Interface: 192.168.5.110 --- 0xa
-  Internet Address      Physical Address      Type
-  192.168.5.141         9a-ee-38-ac-30-fc     dynamic   
