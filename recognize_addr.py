@@ -18,6 +18,6 @@ def recognize_addr(devices):
                 response = requests.get(api).text
                 if response[0] == "{": #checking if call to API returned error
                     response = "Brak danych"
-                collected.append("Adres IP: " + i + " Adres MAC: " + out[0] + " Producent: " + response) #building final message
+                collected.append([i, out[0], response]) #building final message
 
     return collected
