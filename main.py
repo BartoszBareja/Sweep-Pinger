@@ -59,8 +59,10 @@ def main():
   table_mac.heading("MAC", text="MAC", anchor=tk.CENTER)
   table_mac.heading("Producer", text="Producer", anchor=tk.CENTER)
 
+
   for i in range(len(out)):
-    table_mac.insert(parent="",index = "end", iid = i +1, text = "", values = (i + 1, out[i][0], out[i][1], out[1][2]))
+    if len(out[i]) > 1:
+      table_mac.insert(parent="",index = "end", iid = i +1, text = "", values = (i + 1, out[i][0], out[i][1], out[i][2]))
 
 
   table_mac.pack()
