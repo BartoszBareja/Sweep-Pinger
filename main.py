@@ -19,53 +19,47 @@ def main():
 
       devices = pool.map(check_ips_in_range, [1,2,3]) #runing sweep ping in 3 separate batches to speed up the process
 
-  #devices = [["192.168.5.1"], ["192.168.5.141"]]  # test data, used to save time in case of testing functions not related to pinging itself
-  #devices = [['192.168.1.1', '192.168.1.100', '192.168.1.101', '192.168.1.103', '192.168.1.112']] # second set of test data
-  devices_tmp = []
+      # devices = [["192.168.5.1"], ["192.168.5.141"]]  # test data, used to save time in case of testing functions not related to pinging itself
+      # devices = [['192.168.1.1', '192.168.1.100', '192.168.1.101', '192.168.1.103', '192.168.1.112']] # second set of test data
+      devices_tmp = []
 
-  for i in range(len(devices)): #loop to organize finding more than one IP in batch
-    if len(devices[i]) > 0:
-      tmp = devices[i]
-      for ii in tmp:
-        devices_tmp.append(ii)
+      for i in range(len(devices)):  # loop to organize finding more than one IP in batch
+        if len(devices[i]) > 0:
+          tmp = devices[i]
+          for ii in tmp:
+            devices_tmp.append(ii)
+      devices = devices_tmp
 
-  print(devices_tmp)
+      out = recognize_addr(devices)  # searching ARP and calling MAC API
 
-  devices = devices_tmp
+      main_window = tk.Tk()
+      main_window.title("Sweep Pinger")
 
-  out = recognize_addr(devices) #searching ARP and calling MAC API
+      table = tk.Frame(main_window)
+      table.pack()
 
-  print(out)
+      table_mac = ttk.Treeview(table)
 
-  main_window = tk.Tk()
-  main_window.title("Sweep Pinger")
+      table_mac['columns'] = ("id", "IP", "MAC", "Producer")
 
-  table = tk.Frame(main_window)
-  table.pack()
+      table_mac.column("#0", width=0, stretch=tk.NO)
+      table_mac.column("id", anchor=tk.CENTER, width=80)
+      table_mac.column("IP", anchor=tk.CENTER, width=80)
+      table_mac.column("MAC", anchor=tk.CENTER, width=80)
+      table_mac.column("Producer", anchor=tk.CENTER, width=80)
 
-  table_mac = ttk.Treeview(table)
+      table_mac.heading("#0", text="", anchor=tk.CENTER)
+      table_mac.heading("id", text="id", anchor=tk.CENTER)
+      table_mac.heading("IP", text="IP", anchor=tk.CENTER)
+      table_mac.heading("MAC", text="MAC", anchor=tk.CENTER)
+      table_mac.heading("Producer", text="Producer", anchor=tk.CENTER)
 
-  table_mac['columns'] = ("id", "IP", "MAC", "Producer")
+      for i in range(len(out)):
+        if len(out[i]) > 1:
+          table_mac.insert(parent="", index="end", iid=i + 1, text="", values=(i + 1, out[i][0], out[i][1], out[i][2]))
 
-  table_mac.column("#0", width=0, stretch=tk.NO)
-  table_mac.column("id", anchor=tk.CENTER, width=80)
-  table_mac.column("IP", anchor=tk.CENTER, width=80)
-  table_mac.column("MAC", anchor=tk.CENTER, width=80)
-  table_mac.column("Producer", anchor=tk.CENTER, width=80)
+      table_mac.pack()
+      main_window.mainloop()
 
-  table_mac.heading("#0", text="", anchor=tk.CENTER)
-  table_mac.heading("id", text="id", anchor=tk.CENTER)
-  table_mac.heading("IP", text="IP", anchor=tk.CENTER)
-  table_mac.heading("MAC", text="MAC", anchor=tk.CENTER)
-  table_mac.heading("Producer", text="Producer", anchor=tk.CENTER)
-
-
-  for i in range(len(out)):
-    if len(out[i]) > 1:
-      table_mac.insert(parent="",index = "end", iid = i +1, text = "", values = (i + 1, out[i][0], out[i][1], out[i][2]))
-
-
-  table_mac.pack()
-  main_window.mainloop()
 
 main()
