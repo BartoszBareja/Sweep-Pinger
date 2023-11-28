@@ -30,6 +30,8 @@ def main():
             devices_tmp.append(ii)
       devices = devices_tmp
 
+      print(devices)
+
       out = recognize_addr(devices)  # searching ARP and calling MAC API
 
       main_window = tk.Tk()
