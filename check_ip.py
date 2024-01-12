@@ -1,8 +1,8 @@
 import socket
 import subprocess
 
-def check_ips_in_range(start):
-  host = socket.gethostbyname(socket.gethostname())[:-3] #getting the host subnet
+def check_ips_in_range(start, host):
+  host = host[:-3] #getting the host subnet
   stop = start * 86 #declaring IP at which this sweep will end
   start = (start - 1) * 86 #declaring IP at which this sweep will start
   devices = [] #creating an array to
